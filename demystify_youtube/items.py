@@ -8,7 +8,7 @@
 import scrapy
 
 
-class DemystifyYoutubeItem(scrapy.Item):
+class YoutubeItem(scrapy.Item):
     # define the fields for your item here like:
     video_url = scrapy.Field()
     video_name = scrapy.Field()
