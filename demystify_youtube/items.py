@@ -10,5 +10,14 @@ import scrapy
 
 class DemystifyYoutubeItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    video_url = scrapy.Field()
+    video_name = scrapy.Field()
+    video_description = scrapy.Field()
+    num_comments = scrapy.Field()
+    num_views = scrapy.Field()
+    num_likes = scrapy.Field()
+    num_dislikes = scrapy.Field()
+    user = scrapy.Field()
+    suggested_videos = scrapy.Field()
+    next_video = scrapy.Field()
+    commentors = scrapy.Field()

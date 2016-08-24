@@ -14,6 +14,7 @@ BOT_NAME = 'demystify_youtube'
 SPIDER_MODULES = ['demystify_youtube.spiders']
 NEWSPIDER_MODULE = 'demystify_youtube.spiders'
 
+DEPTH_LIMIT = 0
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'demystify_youtube (+http://www.yourdomain.com)'
@@ -27,7 +28,7 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 3
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
