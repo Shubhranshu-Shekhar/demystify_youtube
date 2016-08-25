@@ -13,6 +13,7 @@ class YoutubeItem(scrapy.Item):
     video_url = scrapy.Field()
     video_name = scrapy.Field()
     video_description = scrapy.Field()
+    video_category = scrapy.Field()
     num_views = scrapy.Field()
     num_likes = scrapy.Field()
     num_dislikes = scrapy.Field()
