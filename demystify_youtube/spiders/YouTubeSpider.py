@@ -25,52 +25,46 @@ class YouTubeSpider(scrapy.Spider):
         item = YoutubeItem()
 
 
-        video_name = hxs.xpath("//div[@id='watch-headline-title']//span[@class='watch-title']/@title").extract()[0]
-        video_url = response.url
+        video_category = str(hxs.xpath("//div[@id='watch-description-extras']//ul[@class='content watch-info-tag-list']//a/text()").extract()[0])
+        if(video_category.lower() == "Education".lower() or
+               video_category.lower() == "Science & Technology".lower() or
+               video_category.lower() == "Howto & Style" ):
 
-        #description contains html tags as well because description has embedded links etc.
-        p_tag_desc = hxs.xpath("//div[@id='watch-description-text']//p[@id='eow-description']/text()").extract()
-        video_description = " ".join(p_tag_desc)
-        video_category = hxs.xpath("//div[@id='watch-description-extras']//ul[@class='content watch-info-tag-list']//a/text()").extract()[0]
-        num_views = hxs.xpath("//div[@class='watch-view-count']/text()").extract()
+            video_name = hxs.xpath("//div[@id='watch-headline-title']//span[@class='watch-title']/@title").extract()[0]
+            video_url = response.url
 
-        user_sentiment = hxs.xpath("//div[@id='watch8-sentiment-actions']//button//span[@class='yt-uix-button-content']/text()").extract()
-        num_like = user_sentiment[0]
-        num_dislike = user_sentiment[2]
+            #description contains html tags as well because description has embedded links etc.
+            p_tag_desc = hxs.xpath("//div[@id='watch-description-text']//p[@id='eow-description']/text()").extract()
+            video_description = " ".join(p_tag_desc)
 
-        user = hxs.xpath("//div[@id='watch7-user-header']//div[@class='yt-user-info']/a/@href").extract()[0]
-        suggested_videos = list(set(hxs.xpath("//ul[@id='watch-related']//a/@href").extract()))
-        next_video = hxs.xpath("//div[@class='autoplay-bar']//ul[@class='video-list']//a/@href").extract()[0]
-        crawl_depth = str(response.meta['depth'])
+            num_views = hxs.xpath("//div[@class='watch-view-count']/text()").extract()
 
-        #Populate our youtube item to be saved
-        item['video_url'] = video_url
-        item['video_name'] = video_name
-        item['video_description'] = video_description
-        item['video_category'] = video_category
-        item['num_views'] = num_views
-        item['num_likes'] = num_like
-        item['num_dislikes'] = num_dislike
-        item['user'] = user
-        item['suggested_videos'] = suggested_videos
-        item['next_video'] = next_video
-        item['crawl_depth'] =  crawl_depth
-        yield item
+            user_sentiment = hxs.xpath("//div[@id='watch8-sentiment-actions']//button//span[@class='yt-uix-button-content']/text()").extract()
+            num_like = user_sentiment[0]
+            num_dislike = user_sentiment[2]
 
-        for watch_url in suggested_videos:
-            yield scrapy.Request("https://www.youtube.com"+watch_url, callback=self.parse)
-        yield scrapy.Request("https://www.youtube.com"+next_video, callback=self.parse)
+            user = hxs.xpath("//div[@id='watch7-user-header']//div[@class='yt-user-info']/a/@href").extract()[0]
+            suggested_videos = list(set(hxs.xpath("//ul[@id='watch-related']//a/@href").extract()))
+            next_video = hxs.xpath("//div[@class='autoplay-bar']//ul[@class='video-list']//a/@href").extract()[0]
+            crawl_depth = str(response.meta['depth'])
 
+            #Populate our youtube item to be saved
+            item['video_url'] = video_url
+            item['video_name'] = video_name
+            item['video_description'] = video_description
+            item['video_category'] = video_category
+            item['num_views'] = num_views
+            item['num_likes'] = num_like
+            item['num_dislikes'] = num_dislike
+            item['user'] = user
+            item['suggested_videos'] = suggested_videos
+            item['next_video'] = next_video
+            item['crawl_depth'] =  crawl_depth
+            yield item
 
+            for watch_url in suggested_videos:
+                yield scrapy.Request("https://www.youtube.com"+watch_url, callback=self.parse)
+            yield scrapy.Request("https://www.youtube.com"+next_video, callback=self.parse)
 
-
-
-
-
-
-
-
-
-
-
-
+        else:
+            return
