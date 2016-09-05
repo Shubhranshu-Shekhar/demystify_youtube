@@ -1,6 +1,8 @@
 # demystify-youtube
 This project is an effort at demystifying YouTube heterogeneous network. The dataset can aid various research problems.
 
+It runs on python 2.7.x
+
 USAGE:
 
 ~pip install scrapy
